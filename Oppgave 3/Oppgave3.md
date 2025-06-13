@@ -48,7 +48,7 @@ Om du ser noe som ikke er greit, si ifra til arrangørene. Du kan gjøre det ano
 
 Her kunne man brukt elever på f.eks. VG2 Medie eller Medier og Kommunikasjon som kunne laget noen litt fancy plakater som kunne blitt printet ut og hengt opp, og sendt ut på Discord server. For å vise litt hva jeg mener har jeg brukt ChatGPT til å generere plakaten basert på reglene.
 
-![Plakat med regler](image.png)
+![Plakat med regler](plakat_med_regler.png)
 
 
 
