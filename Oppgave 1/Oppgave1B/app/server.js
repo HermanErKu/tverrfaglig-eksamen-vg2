@@ -78,6 +78,21 @@ app.get('/api/deltagere', async (req, res) => {
   }
 });
 
+// Opprett ny deltager
+app.post('/api/deltagere', async (req, res) => {
+  const { navn } = req.body;
+  try {
+    const { rows } = await pool.query(
+      'INSERT INTO Deltager (navn) VALUES ($1) RETURNING id, navn',
+      [navn]
+    );
+    res.json(rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Kunne ikke opprette deltager' });
+  }
+});
+
 // Hent alle gruppe-medlemskap
 app.get('/api/medlemskap', async (req, res) => {
   try {
@@ -117,7 +132,7 @@ app.post('/api/meld-på', async (req, res) => {
   const { navn, gruppeId } = req.body;
   try {
     const { rows } = await pool.query(
-      'INSERT INTO Deltager (navn) VALUES ($1) RETURNING id, navn',
+      'INSERT INTO Deltager (navn) VALUES ($1) RETURNING id',
       [navn]
     );
     const deltagerId = rows[0].id;
