@@ -88,3 +88,9 @@ Undervisning om nettverk
 https://chatgpt.com/share/684c042e-6108-8004-921d-c4eb0963bf9c
 
 https://chatgpt.com/share/684c043f-e1bc-8004-aca0-9e344fbe4d5e
+
+https://community.ui.com/releases/Grafana-dashboard-for-UniFi-APs-now-available-/28e70453-6bfc-4b5f-a60e-30c4a6642a65
+
+https://community.ui.com/questions/UnPoller-Store-UniFi-Controller-Metrics-in-Prometheus-or-InfluxDB/58a0ea34-d2b3-41cd-93bb-d95d3896d1a1
+
+https://www.google.com/search?q=how+to+use+grafana+for+wifi+logging+with+ubiquiti&rlz=1C1GCEA_enNO1093NO1093&oq=how+to+use+grafana+for+wifi+logging+with+&gs_lcrp=EgZjaHJvbWUqBwgBECEYoAEyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigAdIBCDk3ODhqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8
