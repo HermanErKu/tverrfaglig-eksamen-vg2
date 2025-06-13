@@ -47,3 +47,9 @@ Jeg ville også kjørt backup av servere som trenger det, og gjort dette til en 
 Til overvåking kunne jeg brukt Proxmox sin egen Web UI der jeg hadde fått viktig informasjon om serveren og VM-ene.
 
 Eventuelt kunne jeg satt opp et litt mer sofistikert system ved bruk av Grafana og Prometheus for å få server info, eller Grafana og spill server APIer, som f.eks. Minecraft RCON, for å hentet spillstatistikk.
+
+
+## Kilder:
+
+[ChatGPT Samtale](https://chatgpt.com/share/684be784-bbb0-8004-a2b0-90fb00b00f49)
+Tidligere YFF Prosjekt med Herman 2ITB & Martin 2ITB
