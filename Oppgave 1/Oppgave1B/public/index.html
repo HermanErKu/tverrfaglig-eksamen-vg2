@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Meld deg på spillgruppe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Meld deg på spillgruppe</h1>
+    <form id="signupForm">
+      <label>Navn:</label>
+      <input type="text" id="navn" required>
+
+      <label>Velg gruppe:</label>
+      <select id="gruppeSelect" required>
+        <option value="">-- velg --</option>
+      </select>
+
+      <button type="submit">Meld på</button>
+    </form>
+    <div id="melding"></div>
+  </div>
+
+  <script>
+    async function loadGrupper() {
+      const res = await fetch('/api/grupper');
+      const grupper = await res.json();
+      const sel = document.getElementById('gruppeSelect');
+      grupper.forEach(g => {
+        const o = document.createElement('option');
+        o.value = g.id;
+        o.textContent = g.navn;
+        sel.appendChild(o);
+      });
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const navn = document.getElementById('navn').value;
+      const gruppeId = document.getElementById('gruppeSelect').value;
+      const res = await fetch('/api/meld-på', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ navn, gruppeId })
+      });
+      const data = await res.json();
+      document.getElementById('melding').textContent = data.success
+        ? 'Påmelding registrert!'
+        : 'Feil ved påmelding.';
+    });
+
+    loadGrupper();
+  </script>
+</body>
+</html>

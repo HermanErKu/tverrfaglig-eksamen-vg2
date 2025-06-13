@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin-panelet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Admin-panel</h1>
+
+    <section>
+      <h2>Opprett gruppe</h2>
+      <form id="createGroupForm">
+        <input type="text" id="newGroupName" placeholder="Gruppenavn" required>
+        <button type="submit">Opprett</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Opprett konkurranse</h2>
+      <form id="createKonkForm">
+        <input type="text" id="newKonkName" placeholder="Konkurranse-navn" required>
+        <input type="datetime-local" id="newKonkTid" required>
+        <button type="submit">Opprett</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Oversikt</h2>
+
+      <h3>Grupper</h3>
+      <table id="groupsTable">
+        <thead><tr><th>ID</th><th>Navn</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h3>Konkurranser</h3>
+      <table id="konkTable">
+        <thead><tr><th>ID</th><th>Navn</th><th>Tidspunkt</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h3>Deltagere</h3>
+      <table id="deltTable">
+        <thead><tr><th>ID</th><th>Navn</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h3>Gruppe-medlemskap</h3>
+      <table id="memTable">
+        <thead><tr><th>ID</th><th>Deltager</th><th>Gruppe</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h3>Konkurranse-deltagelser</h3>
+      <table id="partTable">
+        <thead><tr><th>ID</th><th>Deltager</th><th>Konkurranse</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    async function api(path, opts) {
+      const res = await fetch(path, opts);
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      return res.json();
+    }
+
+    async function refreshOverview() {
+      // Grupper
+      const grupper = await api('/api/grupper');
+      document.querySelector('#groupsTable tbody').innerHTML =
+        grupper.map(g => `<tr><td>${g.id}</td><td>${g.navn}</td></tr>`).join('');
+
+      // Konkurranser
+      const konks = await api('/api/konkurranser');
+      document.querySelector('#konkTable tbody').innerHTML =
+        konks.map(k =>
+          `<tr><td>${k.id}</td><td>${k.navn}</td><td>${new Date(k.tidspunkt).toLocaleString()}</td></tr>`
+        ).join('');
+
+      // Deltagere
+      const delts = await api('/api/deltagere');
+      document.querySelector('#deltTable tbody').innerHTML =
+        delts.map(d => `<tr><td>${d.id}</td><td>${d.navn}</td></tr>`).join('');
+
+      // Gruppe-medlemskap
+      const mems = await api('/api/medlemskap');
+      document.querySelector('#memTable tbody').innerHTML =
+        mems.map(m =>
+          `<tr><td>${m.id}</td><td>${m.deltager}</td><td>${m.gruppe}</td></tr>`
+        ).join('');
+
+      // Konkurranse-deltagelser
+      const parts = await api('/api/deltagelser');
+      document.querySelector('#partTable tbody').innerHTML =
+        parts.map(p =>
+          `<tr><td>${p.id}</td><td>${p.deltager}</td><td>${p.konkurranse}</td></tr>`
+        ).join('');
+    }
+
+    // Opprett gruppe
+    document.getElementById('createGroupForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const navn = document.getElementById('newGroupName').value;
+      await api('/api/grupper', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ navn })
+      });
+      e.target.reset();
+      await refreshOverview();
+    });
+
+    // Opprett konkurranse
+    document.getElementById('createKonkForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const navn = document.getElementById('newKonkName').value;
+      const tidspunkt = document.getElementById('newKonkTid').value;
+      await api('/api/konkurranser', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ navn, tidspunkt })
+      });
+      e.target.reset();
+      await refreshOverview();
+    });
+
+    // Initial last + polling hvert 30. sekund
+    refreshOverview();
+    setInterval(refreshOverview, 30_000);
+  </script>
+</body>
+</html>
