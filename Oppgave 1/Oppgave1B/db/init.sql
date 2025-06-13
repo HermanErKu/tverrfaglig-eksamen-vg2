@@ -1,4 +1,3 @@
--- kjørnes automatisk ved oppstart av postgres
 CREATE TABLE Konkurranse (
     id SERIAL PRIMARY KEY,
     navn VARCHAR(255),

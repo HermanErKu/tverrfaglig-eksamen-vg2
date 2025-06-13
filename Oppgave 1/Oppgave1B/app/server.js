@@ -5,7 +5,6 @@ const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
-// Server static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 const pool = new Pool({
@@ -15,7 +14,6 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-// Hent alle grupper
 app.get('/api/grupper', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT id, navn FROM Gruppe ORDER BY id');
@@ -26,7 +24,6 @@ app.get('/api/grupper', async (req, res) => {
   }
 });
 
-// Opprett ny gruppe
 app.post('/api/grupper', async (req, res) => {
   const { navn } = req.body;
   try {
@@ -41,7 +38,6 @@ app.post('/api/grupper', async (req, res) => {
   }
 });
 
-// Hent alle konkurranser
 app.get('/api/konkurranser', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT id, navn, tidspunkt FROM Konkurranse ORDER BY id');
@@ -52,7 +48,6 @@ app.get('/api/konkurranser', async (req, res) => {
   }
 });
 
-// Opprett ny konkurranse
 app.post('/api/konkurranser', async (req, res) => {
   const { navn, tidspunkt } = req.body;
   try {
@@ -67,7 +62,6 @@ app.post('/api/konkurranser', async (req, res) => {
   }
 });
 
-// Hent alle deltakere
 app.get('/api/deltagere', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT id, navn FROM Deltager ORDER BY id');
@@ -78,7 +72,6 @@ app.get('/api/deltagere', async (req, res) => {
   }
 });
 
-// Opprett ny deltager
 app.post('/api/deltagere', async (req, res) => {
   const { navn } = req.body;
   try {
@@ -93,7 +86,6 @@ app.post('/api/deltagere', async (req, res) => {
   }
 });
 
-// Hent alle gruppe-medlemskap
 app.get('/api/medlemskap', async (req, res) => {
   try {
     const { rows } = await pool.query(`
@@ -110,7 +102,6 @@ app.get('/api/medlemskap', async (req, res) => {
   }
 });
 
-// Hent alle konkurranse-deltagelser
 app.get('/api/deltagelser', async (req, res) => {
   try {
     const { rows } = await pool.query(`
@@ -127,7 +118,6 @@ app.get('/api/deltagelser', async (req, res) => {
   }
 });
 
-// Meld på deltager til gruppe
 app.post('/api/meld-på', async (req, res) => {
   const { navn, gruppeId } = req.body;
   try {
@@ -147,7 +137,6 @@ app.post('/api/meld-på', async (req, res) => {
   }
 });
 
-// Serve admin-side
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });

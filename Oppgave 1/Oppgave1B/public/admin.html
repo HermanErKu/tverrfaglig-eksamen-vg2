@@ -9,7 +9,6 @@
   <div class="container">
     <h1>Admin-panel</h1>
 
-    <!-- Opprett gruppe -->
     <section>
       <h2>Opprett gruppe</h2>
       <form id="createGroupForm">
@@ -18,7 +17,6 @@
       </form>
     </section>
 
-    <!-- Opprett konkurranse -->
     <section>
       <h2>Opprett konkurranse</h2>
       <form id="createKonkForm">
@@ -28,7 +26,6 @@
       </form>
     </section>
 
-    <!-- Opprett deltager -->
     <section>
       <h2>Opprett deltager</h2>
       <form id="createDeltagerForm">
@@ -37,7 +34,6 @@
       </form>
     </section>
 
-    <!-- Oversiktstabeller -->
     <section>
       <h2>Oversikt</h2>
 
@@ -84,14 +80,12 @@
   </div>
 
   <script>
-    // Hjelpefunksjon for API-kall
     async function api(path, opts) {
       const res = await fetch(path, opts);
       if (!res.ok) throw new Error(`HTTP ${res.status} – ${res.statusText}`);
       return res.json();
     }
 
-    // Oppdater alle tabeller
     async function refreshOverview() {
       const grupper   = await api('/api/grupper');
       const konks     = await api('/api/konkurranser');
@@ -121,7 +115,6 @@
         ).join('');
     }
 
-    // Event: Opprett gruppe
     document.getElementById('createGroupForm').addEventListener('submit', async e => {
       e.preventDefault();
       const navn = document.getElementById('newGroupName').value;
@@ -134,7 +127,6 @@
       await refreshOverview();
     });
 
-    // Event: Opprett konkurranse
     document.getElementById('createKonkForm').addEventListener('submit', async e => {
       e.preventDefault();
       const navn      = document.getElementById('newKonkName').value;
@@ -148,7 +140,6 @@
       await refreshOverview();
     });
 
-    // Event: Opprett deltager
     document.getElementById('createDeltagerForm').addEventListener('submit', async e => {
       e.preventDefault();
       const navn = document.getElementById('newDeltName').value;
@@ -161,7 +152,6 @@
       await refreshOverview();
     });
 
-    // Initial last & auto-refresh hver 30. sekund
     refreshOverview();
     setInterval(refreshOverview, 30000);
   </script>
